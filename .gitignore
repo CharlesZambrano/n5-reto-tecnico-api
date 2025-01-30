@@ -1,5 +1,7 @@
+# *? n5-reto-tecnico-api/.gitignore
+
 # Visual Studio archivos de usuario y configuración
-.vs/
+/.vs
 *.suo
 *.user
 *.userosscache

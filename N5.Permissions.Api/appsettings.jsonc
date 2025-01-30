@@ -1,3 +1,5 @@
+//*? n5-reto-tecnico-api/N5.Permissions.Api/appsettings.jsonc
+
 {
   "Logging": {
     "LogLevel": {
@@ -8,5 +10,8 @@
   "AllowedHosts": "*",
   "ConnectionStrings": {
     "DefaultConnection": "Server=localhost,1433;Database=PermissionsDb;User Id=sa;Password=sadmin;TrustServerCertificate=True"
+  },
+  "Elasticsearch": {
+    "Uri": "http://localhost:9200"
   }
 }

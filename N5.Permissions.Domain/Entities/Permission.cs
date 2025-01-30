@@ -1,4 +1,5 @@
-﻿using System;
+﻿// *? n5-reto-tecnico-api/N5.Permissions.Domain/Entities/Permission.cs
+
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

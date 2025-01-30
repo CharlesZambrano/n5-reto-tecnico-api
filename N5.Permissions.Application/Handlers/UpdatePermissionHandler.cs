@@ -1,9 +1,9 @@
-﻿using MediatR;
+﻿// *? n5-reto-tecnico-api/N5.Permissions.Application/Handlers/UpdatePermissionHandler.cs
+
+using MediatR;
 using N5.Permissions.Application.Commands;
-using N5.Permissions.Domain.Entities;
 using N5.Permissions.Domain.Interfaces.Repositories;
-using System.Threading;
-using System.Threading.Tasks;
+using N5.Permissions.Infrastructure.Elasticsearch.Services;
 
 namespace N5.Permissions.Application.Handlers
 {
@@ -11,11 +11,13 @@ namespace N5.Permissions.Application.Handlers
     {
         private readonly IPermissionRepository _repository;
         private readonly IPermissionTypeRepository _permissionTypeRepository;
+        private readonly ElasticsearchService _elasticsearchService;
 
-        public UpdatePermissionHandler(IPermissionRepository repository, IPermissionTypeRepository permissionTypeRepository)
+        public UpdatePermissionHandler(IPermissionRepository repository, IPermissionTypeRepository permissionTypeRepository, ElasticsearchService elasticsearchService)
         {
             _repository = repository;
             _permissionTypeRepository = permissionTypeRepository;
+            _elasticsearchService = elasticsearchService;
         }
 
         public async Task<bool> Handle(UpdatePermissionCommand request, CancellationToken cancellationToken)
@@ -33,6 +35,10 @@ namespace N5.Permissions.Application.Handlers
             permission.PermissionDate = request.PermissionDate;
 
             await _repository.UpdateAsync(permission);
+
+            // Actualizar en Elasticsearch
+            await _elasticsearchService.IndexPermissionAsync(permission);
+
             return true;
         }
     }

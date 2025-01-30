@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿// *? n5-reto-tecnico-api/N5.Permissions.Application/Commands/CreatePermissionCommand.cs
+
+using MediatR;
 using N5.Permissions.Domain.Entities;
 
 namespace N5.Permissions.Application.Commands

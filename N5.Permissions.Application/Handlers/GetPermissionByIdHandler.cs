@@ -1,9 +1,9 @@
-﻿using MediatR;
+﻿// *? n5-reto-tecnico-api/N5.Permissions.Application/Handlers/GetPermissionByIdHandler.cs
+
+using MediatR;
 using N5.Permissions.Application.Queries;
 using N5.Permissions.Domain.Entities;
 using N5.Permissions.Domain.Interfaces.Repositories;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace N5.Permissions.Application.Handlers
 {

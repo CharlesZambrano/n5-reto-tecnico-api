@@ -1,10 +1,10 @@
-﻿using MediatR;
+﻿// *? n5-reto-tecnico-api/N5.Permissions.Api/Controllers/PermissionController.cs
+
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using N5.Permissions.Application.Commands;
 using N5.Permissions.Application.Queries;
 using N5.Permissions.Domain.Entities;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace N5.Permissions.Api.Controllers
 {

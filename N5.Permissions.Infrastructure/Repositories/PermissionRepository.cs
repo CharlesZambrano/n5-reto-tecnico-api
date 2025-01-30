@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿// *? n5-reto-tecnico-api/N5.Permissions.Infrastructure/Repositories/PermissionRepository.cs
+
+using Microsoft.EntityFrameworkCore;
 using N5.Permissions.Domain.Entities;
 using N5.Permissions.Domain.Interfaces.Repositories;
 using N5.Permissions.Infrastructure.Persistence;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace N5.Permissions.Infrastructure.Repositories
 {

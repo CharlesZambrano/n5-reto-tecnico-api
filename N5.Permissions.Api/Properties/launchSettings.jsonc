@@ -1,4 +1,6 @@
-﻿{
+﻿// *? n5-reto-tecnico-api\N5.Permissions.Api\Properties\launchSettings.jsonc
+
+{
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,

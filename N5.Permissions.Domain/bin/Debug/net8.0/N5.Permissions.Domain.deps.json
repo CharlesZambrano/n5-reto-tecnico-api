@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v8.0": {
       "N5.Permissions.Domain/1.0.0": {
         "dependencies": {
+          "Elastic.Clients.Elasticsearch": "8.17.1",
           "MediatR": "12.4.1",
           "Microsoft.EntityFrameworkCore": "9.0.1",
           "Microsoft.EntityFrameworkCore.Design": "9.0.1",
@@ -51,6 +52,25 @@
           "lib/netstandard2.0/Azure.Identity.dll": {
             "assemblyVersion": "1.11.4.0",
             "fileVersion": "1.1100.424.31005"
+          }
+        }
+      },
+      "Elastic.Clients.Elasticsearch/8.17.1": {
+        "dependencies": {
+          "Elastic.Transport": "0.5.7"
+        },
+        "runtime": {
+          "lib/net8.0/Elastic.Clients.Elasticsearch.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.17.1.0"
+          }
+        }
+      },
+      "Elastic.Transport/0.5.7": {
+        "runtime": {
+          "lib/net8.0/Elastic.Transport.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.5.7.0"
           }
         }
       },
@@ -1129,6 +1149,20 @@
       "sha512": "sha512-Sf4BoE6Q3jTgFkgBkx7qztYOFELBCo+wQgpYDwal/qJ1unBH73ywPztIJKXBXORRzAeNijsuxhk94h0TIMvfYg==",
       "path": "azure.identity/1.11.4",
       "hashPath": "azure.identity.1.11.4.nupkg.sha512"
+    },
+    "Elastic.Clients.Elasticsearch/8.17.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-H1TI5dMB/si8GzoEy17sgjzr8frO+nURIjfgoHFg3AOGugbvPwm4FzCNLk+R++vdPOmsQ3wS0NZPH3VufP4HcQ==",
+      "path": "elastic.clients.elasticsearch/8.17.1",
+      "hashPath": "elastic.clients.elasticsearch.8.17.1.nupkg.sha512"
+    },
+    "Elastic.Transport/0.5.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0VQhS6RauOqydF1bUs7nqpk9u8X2Sa2O7djiioD5b/jWf/cX6S7GcmlWzqvm2j1a+np1Q79B2SwEFOI2zMkcbw==",
+      "path": "elastic.transport/0.5.7",
+      "hashPath": "elastic.transport.0.5.7.nupkg.sha512"
     },
     "Humanizer.Core/2.14.1": {
       "type": "package",

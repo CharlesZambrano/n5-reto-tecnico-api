@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿// *? n5-reto-tecnico-api/N5.Permissions.Domain/Entities/PermissionType.cs
+
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
