@@ -1,6 +1,6 @@
-﻿using N5.Permissions.Domain.Entities;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿// *? n5-reto-tecnico-api/N5.Permissions.Domain/Interfaces/Repositories/IPermissionRepository.cs
+
+using N5.Permissions.Domain.Entities;
 
 namespace N5.Permissions.Domain.Interfaces.Repositories
 {

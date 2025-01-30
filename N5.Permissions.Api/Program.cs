@@ -1,27 +1,43 @@
+// *? n5-reto-tecnico-api/N5.Permissions.Api/Program.cs
+
 using Microsoft.EntityFrameworkCore;
 using N5.Permissions.Infrastructure.Persistence;
 using N5.Permissions.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using N5.Permissions.Domain.Interfaces.Repositories;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
+using N5.Permissions.Infrastructure.Elasticsearch.Services;
+using Elastic.Clients.Elasticsearch;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Configuraciï¿½n de Elasticsearch
+var elasticsearchUri = builder.Configuration["Elasticsearch:Uri"];
+if (string.IsNullOrEmpty(elasticsearchUri))
+{
+    throw new ArgumentNullException(nameof(elasticsearchUri), "Elasticsearch URI no estï¿½ configurado en appsettings.json");
+}
 
+var settings = new ElasticsearchClientSettings(new Uri(elasticsearchUri))
+    .DefaultIndex("permissions");
+
+builder.Services.AddSingleton(new ElasticsearchClient(settings));
+builder.Services.AddSingleton<ElasticsearchService>();
+
+
+// Agregar servicios
 builder.Services.AddControllers();
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
 // Configurar SQL Server con EF Core
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Registrar Repositorios en la Inyección de Dependencias
+// Registrar Repositorios en la Inyecciï¿½n de Dependencias
 builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
 builder.Services.AddScoped<IPermissionTypeRepository, PermissionTypeRepository>();
 
-// Agregar Swagger con configuración
+// Configurar Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -30,8 +46,7 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-
+// Configurar el pipeline HTTP
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -43,9 +58,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
