@@ -8,6 +8,7 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using N5.Permissions.Infrastructure.Elasticsearch.Services;
 using Elastic.Clients.Elasticsearch;
+using N5.Permissions.Domain.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,15 +28,19 @@ builder.Services.AddSingleton<ElasticsearchService>();
 
 // Agregar servicios
 builder.Services.AddControllers();
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
+    Assembly.GetExecutingAssembly(),
+    Assembly.Load("N5.Permissions.Application")
+));
 
 // Configurar SQL Server con EF Core
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Registrar Repositorios en la Inyecci�n de Dependencias
+// Registrar Repositorios en la Inyeccion de Dependencias
 builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
 builder.Services.AddScoped<IPermissionTypeRepository, PermissionTypeRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // Configurar Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -43,6 +48,7 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "N5 Permissions API", Version = "v1" });
 });
+
 
 var app = builder.Build();
 

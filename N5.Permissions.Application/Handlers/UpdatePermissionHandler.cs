@@ -2,30 +2,28 @@
 
 using MediatR;
 using N5.Permissions.Application.Commands;
-using N5.Permissions.Domain.Interfaces.Repositories;
+using N5.Permissions.Domain.Interfaces;
 using N5.Permissions.Infrastructure.Elasticsearch.Services;
 
 namespace N5.Permissions.Application.Handlers
 {
     public class UpdatePermissionHandler : IRequestHandler<UpdatePermissionCommand, bool>
     {
-        private readonly IPermissionRepository _repository;
-        private readonly IPermissionTypeRepository _permissionTypeRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ElasticsearchService _elasticsearchService;
 
-        public UpdatePermissionHandler(IPermissionRepository repository, IPermissionTypeRepository permissionTypeRepository, ElasticsearchService elasticsearchService)
+        public UpdatePermissionHandler(IUnitOfWork unitOfWork, ElasticsearchService elasticsearchService)
         {
-            _repository = repository;
-            _permissionTypeRepository = permissionTypeRepository;
+            _unitOfWork = unitOfWork;
             _elasticsearchService = elasticsearchService;
         }
 
         public async Task<bool> Handle(UpdatePermissionCommand request, CancellationToken cancellationToken)
         {
-            var permission = await _repository.GetByIdAsync(request.Id);
+            var permission = await _unitOfWork.Permissions.GetByIdAsync(request.Id);
             if (permission == null) return false;
 
-            var permissionType = await _permissionTypeRepository.GetByIdAsync(request.PermissionTypeId);
+            var permissionType = await _unitOfWork.PermissionTypes.GetByIdAsync(request.PermissionTypeId);
             if (permissionType == null) throw new ArgumentException("Invalid PermissionType ID");
 
             permission.EmployeeName = request.EmployeeName;
@@ -34,7 +32,8 @@ namespace N5.Permissions.Application.Handlers
             permission.PermissionType = permissionType;
             permission.PermissionDate = request.PermissionDate;
 
-            await _repository.UpdateAsync(permission);
+            await _unitOfWork.Permissions.UpdateAsync(permission);
+            await _unitOfWork.CommitAsync();
 
             // Actualizar en Elasticsearch
             await _elasticsearchService.IndexPermissionAsync(permission);

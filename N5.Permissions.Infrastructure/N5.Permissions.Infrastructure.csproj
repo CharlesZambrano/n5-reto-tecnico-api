@@ -1,6 +1,4 @@
-﻿<!-- *? n5-reto-tecnico-api/N5.Permissions.Infrastructure/N5.Permissions.Infrastructure.csproj -->
-
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>

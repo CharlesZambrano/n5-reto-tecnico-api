@@ -3,22 +3,22 @@
 using MediatR;
 using N5.Permissions.Application.Queries;
 using N5.Permissions.Domain.Entities;
-using N5.Permissions.Domain.Interfaces.Repositories;
+using N5.Permissions.Domain.Interfaces;
 
 namespace N5.Permissions.Application.Handlers
 {
     public class GetPermissionByIdHandler : IRequestHandler<GetPermissionByIdQuery, Permission?>
     {
-        private readonly IPermissionRepository _repository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GetPermissionByIdHandler(IPermissionRepository repository)
+        public GetPermissionByIdHandler(IUnitOfWork unitOfWork)
         {
-            _repository = repository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Permission?> Handle(GetPermissionByIdQuery request, CancellationToken cancellationToken)
         {
-            return await _repository.GetByIdAsync(request.Id);
+            return await _unitOfWork.Permissions.GetByIdAsync(request.Id);
         }
     }
 }
