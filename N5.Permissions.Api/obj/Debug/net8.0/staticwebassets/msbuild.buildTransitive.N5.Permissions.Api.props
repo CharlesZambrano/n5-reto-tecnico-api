@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\N5.Permissions.Api.props" />
-</Project>
