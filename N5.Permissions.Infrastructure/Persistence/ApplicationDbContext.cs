@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿// *? n5-reto-tecnico-api/N5.Permissions.Infrastructure/Persistence/ApplicationDbContext.cs
+
+using Microsoft.EntityFrameworkCore;
 using N5.Permissions.Domain.Entities;
 
 namespace N5.Permissions.Infrastructure.Persistence

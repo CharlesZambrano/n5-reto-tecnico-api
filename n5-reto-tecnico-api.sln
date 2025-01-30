@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "N5.Permissions.Api", "N5.Permissions.Api\N5.Permissions.Api.csproj", "{61F3DFBC-B2B4-4B3B-9C32-9169C923BE19}"
 EndProject
@@ -12,6 +12,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "N5.Permissions.Infrastructure", "N5.Permissions.Infrastructure\N5.Permissions.Infrastructure.csproj", "{E0C8A385-0C2A-4DFA-9840-58A6830606B3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "N5.Permissions.Tests", "N5.Permissions.Tests\N5.Permissions.Tests.csproj", "{7BDAD34E-B10E-49E5-A4AD-F76A030EE123}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementos de la solución", "Elementos de la solución", "{3864C7AF-E2EE-46CD-940D-D95982E0E36C}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
