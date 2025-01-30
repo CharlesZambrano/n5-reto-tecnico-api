@@ -1,12 +1,11 @@
-﻿using MediatR;
-using N5.Permissions.Application.Queries;
+﻿// *? n5-reto-tecnico-api/N5.Permissions.Application/Handlers/PermissionHandler/SearchPermissionsHandler.cs
+
+using MediatR;
+using N5.Permissions.Application.Queries.PermissionQuerie;
 using N5.Permissions.Domain.Entities;
 using N5.Permissions.Infrastructure.Elasticsearch.Services;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace N5.Permissions.Application.Handlers
+namespace N5.Permissions.Application.Handlers.PermissionHandler
 {
     public class SearchPermissionsHandler : IRequestHandler<SearchPermissionsQuery, IEnumerable<Permission>>
     {

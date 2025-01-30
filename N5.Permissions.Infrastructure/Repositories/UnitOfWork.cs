@@ -3,7 +3,6 @@
 using N5.Permissions.Domain.Interfaces;
 using N5.Permissions.Domain.Interfaces.Repositories;
 using N5.Permissions.Infrastructure.Persistence;
-using System.Threading.Tasks;
 
 namespace N5.Permissions.Infrastructure.Repositories
 {

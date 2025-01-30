@@ -1,11 +1,11 @@
-﻿// *? n5-reto-tecnico-api/N5.Permissions.Application/Handlers/UpdatePermissionHandler.cs
+﻿// *? n5-reto-tecnico-api/N5.Permissions.Application/Handlers/PermissionHandler/UpdatePermissionHandler.cs
 
 using MediatR;
-using N5.Permissions.Application.Commands.Permission;
+using N5.Permissions.Application.Commands.PermissionCommand;
 using N5.Permissions.Domain.Interfaces;
 using N5.Permissions.Infrastructure.Elasticsearch.Services;
 
-namespace N5.Permissions.Application.Handlers.Permission
+namespace N5.Permissions.Application.Handlers.PermissionHandler
 {
     public class UpdatePermissionHandler : IRequestHandler<UpdatePermissionCommand, bool>
     {

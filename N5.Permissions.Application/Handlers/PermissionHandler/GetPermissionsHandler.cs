@@ -1,11 +1,11 @@
-﻿// *? n5-reto-tecnico-api/N5.Permissions.Application/Handlers/GetPermissionsHandler.cs
+﻿// *? n5-reto-tecnico-api/N5.Permissions.Application/Handlers/PermissionHandler/GetPermissionsHandler.cs
 
 using MediatR;
-using N5.Permissions.Application.Queries.Permission;
+using N5.Permissions.Application.Queries.PermissionQuerie;
 using N5.Permissions.Domain.Entities;
 using N5.Permissions.Domain.Interfaces;
 
-namespace N5.Permissions.Application.Handlers.Permission
+namespace N5.Permissions.Application.Handlers.PermissionHandler
 {
     public class GetPermissionsHandler : IRequestHandler<GetPermissionsQuery, IEnumerable<Permission>>
     {

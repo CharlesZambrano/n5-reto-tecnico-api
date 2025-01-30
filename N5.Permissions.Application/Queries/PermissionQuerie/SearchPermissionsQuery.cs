@@ -1,8 +1,9 @@
-﻿using MediatR;
-using N5.Permissions.Domain.Entities;
-using System.Collections.Generic;
+﻿// *? n5-reto-tecnico-api/N5.Permissions.Application/Queries/Permission/SearchPermissionsQuery.cs
 
-namespace N5.Permissions.Application.Queries
+using MediatR;
+using N5.Permissions.Domain.Entities;
+
+namespace N5.Permissions.Application.Queries.PermissionQuerie
 {
     public class SearchPermissionsQuery : IRequest<IEnumerable<Permission>>
     {

@@ -12,7 +12,7 @@ using N5.Permissions.Domain.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configuraci�n de Elasticsearch
+// Configuracion de Elasticsearch
 var elasticsearchUri = builder.Configuration["Elasticsearch:Uri"];
 if (string.IsNullOrEmpty(elasticsearchUri))
 {

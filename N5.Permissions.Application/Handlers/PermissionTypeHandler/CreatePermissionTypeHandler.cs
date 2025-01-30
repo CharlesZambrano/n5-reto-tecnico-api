@@ -1,10 +1,11 @@
-﻿using MediatR;
-using N5.Permissions.Application.Commands;
-using N5.Permissions.Application.Commands.PermissionType;
+﻿// *? n5-reto-tecnico-api/N5.Permissions.Application/Handlers/PermissionTypeHandler/CreatePermissionTypeHandler.cs
+
+using MediatR;
+using N5.Permissions.Application.Commands.PermissionTypeCommand;
 using N5.Permissions.Domain.Entities;
 using N5.Permissions.Domain.Interfaces;
 
-namespace N5.Permissions.Application.Handlers
+namespace N5.Permissions.Application.Handlers.PermissionHandler
 {
     public class CreatePermissionTypeHandler : IRequestHandler<CreatePermissionTypeCommand, PermissionType>
     {
