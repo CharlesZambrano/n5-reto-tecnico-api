@@ -1,0 +1,42 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\PERSONAL\\N5\\n5-reto-tecnico-api\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{61F3DFBC-B2B4-4B3B-9C32-9169C923BE19}|N5.Permissions.Api\\N5.Permissions.Api.csproj|d:\\personal\\n5\\n5-reto-tecnico-api\\n5.permissions.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{61F3DFBC-B2B4-4B3B-9C32-9169C923BE19}|N5.Permissions.Api\\N5.Permissions.Api.csproj|solutionrelative:n5.permissions.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\PERSONAL\\N5\\n5-reto-tecnico-api\\N5.Permissions.Api\\Program.cs",
+              "RelativeDocumentMoniker": "N5.Permissions.Api\\Program.cs",
+              "ToolTip": "D:\\PERSONAL\\N5\\n5-reto-tecnico-api\\N5.Permissions.Api\\Program.cs",
+              "RelativeToolTip": "N5.Permissions.Api\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-30T15:37:29.37Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
