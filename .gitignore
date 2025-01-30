@@ -53,3 +53,5 @@ appsettings.Local.json
 *.sln.iml
 *.dotSettings.user
 *.db
+/N5.Permissions.Api/obj
+/.vs/n5-reto-tecnico-api/CopilotIndices
