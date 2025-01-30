@@ -52,3 +52,4 @@ appsettings.Local.json
 .idea/
 *.sln.iml
 *.dotSettings.user
+*.db
