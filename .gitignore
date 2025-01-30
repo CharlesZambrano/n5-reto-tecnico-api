@@ -1,5 +1,12 @@
 /N5.Permissions.Api/obj
-/.vs/n5-reto-tecnico-api/CopilotIndices
+/N5.Permissions.Application/obj
+/N5.Permissions.Domain/obj
+/N5.Permissions.Infrastructure/obj
+/N5.Permissions.Tests/obj
+/N5.Permissions.Api/bin
+/N5.Permissions.Application/bin
+/N5.Permissions.Domain/bin
+/N5.Permissions.Infrastructure/bin
+/N5.Permissions.Tests/bin
 /.vs
-**/bin/
-**/obj/
+/.github/workflows

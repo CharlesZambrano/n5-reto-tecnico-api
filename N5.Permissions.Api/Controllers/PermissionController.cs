@@ -2,8 +2,9 @@
 
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using N5.Permissions.Application.Commands;
+using N5.Permissions.Application.Commands.Permission;
 using N5.Permissions.Application.Queries;
+using N5.Permissions.Application.Queries.Permission;
 using N5.Permissions.Domain.Entities;
 
 namespace N5.Permissions.Api.Controllers
@@ -62,6 +63,16 @@ namespace N5.Permissions.Api.Controllers
             if (!success) return NotFound();
 
             return NoContent();
+        }
+
+        /// <summary>
+        /// Buscar permisos en Elasticsearch
+        /// </summary>
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<Permission>>> SearchPermissions([FromQuery] string query)
+        {
+            var result = await _mediator.Send(new SearchPermissionsQuery(query));
+            return Ok(result);
         }
     }
 }
