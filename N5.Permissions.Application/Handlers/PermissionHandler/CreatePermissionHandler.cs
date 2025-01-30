@@ -33,10 +33,9 @@ namespace N5.Permissions.Application.Handlers.PermissionHandler
                 PermissionDate = request.PermissionDate
             };
 
-            _unitOfWork.Permissions.AddAsync(permission);
+            await _unitOfWork.Permissions.AddAsync(permission);
             await _unitOfWork.CommitAsync();
 
-            // Indexar en Elasticsearch
             await _elasticsearchService.IndexPermissionAsync(permission);
 
             return permission;

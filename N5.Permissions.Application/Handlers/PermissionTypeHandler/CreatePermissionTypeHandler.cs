@@ -5,7 +5,7 @@ using N5.Permissions.Application.Commands.PermissionTypeCommand;
 using N5.Permissions.Domain.Entities;
 using N5.Permissions.Domain.Interfaces;
 
-namespace N5.Permissions.Application.Handlers.PermissionHandler
+namespace N5.Permissions.Application.Handlers.PermissionTypeHandler
 {
     public class CreatePermissionTypeHandler : IRequestHandler<CreatePermissionTypeCommand, PermissionType>
     {
@@ -20,7 +20,8 @@ namespace N5.Permissions.Application.Handlers.PermissionHandler
         {
             var permissionType = new PermissionType
             {
-                Description = request.Description
+                Description = request.Description,
+                Permissions = new List<Permission>()
             };
 
             await _unitOfWork.PermissionTypes.AddAsync(permissionType);

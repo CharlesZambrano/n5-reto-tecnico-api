@@ -25,5 +25,10 @@ namespace N5.Permissions.Infrastructure.Repositories
         {
             return await _context.PermissionTypes.FindAsync(id);
         }
+
+        public async Task AddAsync(PermissionType permissionType)
+        {
+            await _context.PermissionTypes.AddAsync(permissionType);
+        }
     }
 }

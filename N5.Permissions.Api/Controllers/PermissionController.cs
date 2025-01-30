@@ -2,9 +2,8 @@
 
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using N5.Permissions.Application.Commands.Permission;
-using N5.Permissions.Application.Queries;
-using N5.Permissions.Application.Queries.Permission;
+using N5.Permissions.Application.Commands.PermissionCommand;
+using N5.Permissions.Application.Queries.PermissionQuerie;
 using N5.Permissions.Domain.Entities;
 
 namespace N5.Permissions.Api.Controllers
