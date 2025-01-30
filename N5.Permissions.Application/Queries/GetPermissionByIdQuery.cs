@@ -1,0 +1,15 @@
+﻿using MediatR;
+using N5.Permissions.Domain.Entities;
+
+namespace N5.Permissions.Application.Queries
+{
+    public class GetPermissionByIdQuery : IRequest<Permission?>
+    {
+        public int Id { get; }
+
+        public GetPermissionByIdQuery(int id)
+        {
+            Id = id;
+        }
+    }
+}

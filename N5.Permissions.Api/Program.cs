@@ -6,12 +6,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using N5.Permissions.Domain.Interfaces.Repositories;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
+using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
 // Configurar SQL Server con EF Core
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -20,6 +23,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Registrar Repositorios en la Inyección de Dependencias
 builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
 builder.Services.AddScoped<IPermissionTypeRepository, PermissionTypeRepository>();
+
 
 // Agregar Swagger con configuración
 builder.Services.AddEndpointsApiExplorer();

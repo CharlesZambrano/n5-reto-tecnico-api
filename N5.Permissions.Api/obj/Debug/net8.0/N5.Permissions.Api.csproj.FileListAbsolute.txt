@@ -170,9 +170,12 @@ D:\PERSONAL\N5\n5-reto-tecnico-api\N5.Permissions.Api\bin\Debug\net8.0\runtimes\
 D:\PERSONAL\N5\n5-reto-tecnico-api\N5.Permissions.Api\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 D:\PERSONAL\N5\n5-reto-tecnico-api\N5.Permissions.Api\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
 D:\PERSONAL\N5\n5-reto-tecnico-api\N5.Permissions.Api\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
-D:\PERSONAL\N5\n5-reto-tecnico-api\N5.Permissions.Api\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 D:\PERSONAL\N5\n5-reto-tecnico-api\N5.Permissions.Api\bin\Debug\net8.0\Microsoft.OpenApi.dll
 D:\PERSONAL\N5\n5-reto-tecnico-api\N5.Permissions.Api\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
 D:\PERSONAL\N5\n5-reto-tecnico-api\N5.Permissions.Api\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 D:\PERSONAL\N5\n5-reto-tecnico-api\N5.Permissions.Api\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 D:\PERSONAL\N5\n5-reto-tecnico-api\N5.Permissions.Api\obj\Debug\net8.0\N5.Permissions.Api.MvcApplicationPartsAssemblyInfo.cs
+D:\PERSONAL\N5\n5-reto-tecnico-api\N5.Permissions.Api\bin\Debug\net8.0\MediatR.dll
+D:\PERSONAL\N5\n5-reto-tecnico-api\N5.Permissions.Api\bin\Debug\net8.0\MediatR.Contracts.dll
+D:\PERSONAL\N5\n5-reto-tecnico-api\N5.Permissions.Api\obj\Debug\net8.0\N5.Permissions.Api.sourcelink.json
+D:\PERSONAL\N5\n5-reto-tecnico-api\N5.Permissions.Api\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

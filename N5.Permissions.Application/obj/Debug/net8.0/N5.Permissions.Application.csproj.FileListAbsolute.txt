@@ -15,3 +15,4 @@ D:\PERSONAL\N5\n5-reto-tecnico-api\N5.Permissions.Application\obj\Debug\net8.0\N
 D:\PERSONAL\N5\n5-reto-tecnico-api\N5.Permissions.Application\obj\Debug\net8.0\ref\N5.Permissions.Application.dll
 D:\PERSONAL\N5\n5-reto-tecnico-api\N5.Permissions.Application\bin\Debug\net8.0\N5.Permissions.Application.runtimeconfig.json
 D:\PERSONAL\N5\n5-reto-tecnico-api\N5.Permissions.Application\obj\Debug\net8.0\N5.Permissions.Application.genruntimeconfig.cache
+D:\PERSONAL\N5\n5-reto-tecnico-api\N5.Permissions.Application\obj\Debug\net8.0\N5.Permissions.Application.sourcelink.json

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("N5.Permissions.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6fefe25339de746ead37a89a8fdbe47937c635cc")]
 [assembly: System.Reflection.AssemblyProductAttribute("N5.Permissions.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("N5.Permissions.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
