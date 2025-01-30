@@ -55,3 +55,4 @@ appsettings.Local.json
 *.db
 /N5.Permissions.Api/obj
 /.vs/n5-reto-tecnico-api/CopilotIndices
+/.vs
