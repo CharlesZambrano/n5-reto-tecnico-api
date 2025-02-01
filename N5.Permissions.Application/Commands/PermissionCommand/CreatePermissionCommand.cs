@@ -1,11 +1,11 @@
 ﻿// *? n5-reto-tecnico-api/N5.Permissions.Application/Commands/PermissionCommand/CreatePermissionCommand.cs
 
 using MediatR;
-using N5.Permissions.Domain.Entities;
+using N5.Permissions.Application.DTOs;
 
 namespace N5.Permissions.Application.Commands.PermissionCommand
 {
-    public class CreatePermissionCommand : IRequest<Permission>
+    public class CreatePermissionCommand : IRequest<PermissionDto>
     {
         public string EmployeeName { get; set; }
         public string EmployeeSurname { get; set; }

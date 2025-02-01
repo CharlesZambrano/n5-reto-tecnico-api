@@ -19,37 +19,17 @@ namespace N5.Permissions.Api.Controllers
             _mediator = mediator;
         }
 
-        /// <summary>
-        /// Obtener todos los tipos de permisos (sin la propiedad 'permissions')
-        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PermissionTypeDto>>> GetPermissionTypes()
         {
-            var permissionTypes = await _mediator.Send(new GetPermissionTypesQuery());
-            var dtos = permissionTypes.Select(pt => new PermissionTypeDto
-            {
-                Id = pt.Id,
-                Description = pt.Description,
-                Code = pt.Code
-            }).ToList();
-
+            var dtos = await _mediator.Send(new GetPermissionTypesQuery());
             return Ok(dtos);
         }
 
-        /// <summary>
-        /// Crear un nuevo tipo de permiso
-        /// </summary>
         [HttpPost]
         public async Task<ActionResult<PermissionTypeDto>> CreatePermissionType([FromBody] CreatePermissionTypeCommand command)
         {
-            var permissionType = await _mediator.Send(command);
-            var dto = new PermissionTypeDto
-            {
-                Id = permissionType.Id,
-                Description = permissionType.Description,
-                Code = permissionType.Code
-            };
-
+            var dto = await _mediator.Send(command);
             return CreatedAtAction(nameof(GetPermissionTypes), new { id = dto.Id }, dto);
         }
     }

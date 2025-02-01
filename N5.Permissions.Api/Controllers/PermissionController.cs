@@ -19,9 +19,6 @@ namespace N5.Permissions.Api.Controllers
             _mediator = mediator;
         }
 
-        /// <summary>
-        /// Obtener todos los permisos
-        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PermissionDto>>> GetPermissions()
         {
@@ -29,9 +26,6 @@ namespace N5.Permissions.Api.Controllers
             return Ok(result);
         }
 
-        /// <summary>
-        /// Obtener un permiso por ID
-        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<PermissionDto>> GetPermissionById(int id)
         {
@@ -41,36 +35,13 @@ namespace N5.Permissions.Api.Controllers
             return Ok(result);
         }
 
-        /// <summary>
-        /// Crear un nuevo permiso
-        /// </summary>
         [HttpPost]
         public async Task<ActionResult<PermissionDto>> CreatePermission([FromBody] CreatePermissionCommand command)
         {
-            var permission = await _mediator.Send(command);
-
-            // Mapeo de la entidad a DTO
-            var dto = new PermissionDto
-            {
-                Id = permission.Id,
-                EmployeeName = permission.EmployeeName,
-                EmployeeSurname = permission.EmployeeSurname,
-                PermissionTypeId = permission.PermissionTypeId,
-                PermissionDate = permission.PermissionDate,
-                PermissionType = new PermissionTypeDto
-                {
-                    Id = permission.PermissionType.Id,
-                    Description = permission.PermissionType.Description,
-                    Code = permission.PermissionType.Code
-                }
-            };
-
+            var dto = await _mediator.Send(command);
             return CreatedAtAction(nameof(GetPermissionById), new { id = dto.Id }, dto);
         }
 
-        /// <summary>
-        /// Modificar un permiso existente
-        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePermission(int id, [FromBody] UpdatePermissionCommand command)
         {
@@ -84,9 +55,6 @@ namespace N5.Permissions.Api.Controllers
             return NoContent();
         }
 
-        /// <summary>
-        /// Buscar permisos en Elasticsearch
-        /// </summary>
         [HttpGet("search")]
         public async Task<ActionResult<IEnumerable<PermissionDto>>> SearchPermissions([FromQuery] string query)
         {
@@ -94,9 +62,6 @@ namespace N5.Permissions.Api.Controllers
             return Ok(result);
         }
 
-        /// <summary>
-        /// Reindexar permisos en Elasticsearch
-        /// </summary>
         [HttpPost("reindex")]
         public async Task<IActionResult> ReindexPermissions()
         {
