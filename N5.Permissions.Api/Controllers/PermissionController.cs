@@ -66,12 +66,13 @@ namespace N5.Permissions.Api.Controllers
         /// </summary>
         /// <param name="id">ID del permiso a modificar.</param>
         /// <param name="command">Datos actualizados del permiso.</param>
-        /// <returns>No content si es exitoso; BadRequest o NotFound en caso contrario.</returns>
+        /// <returns>No content si es exitoso; NotFound en caso contrario.</returns>
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdatePermission(int id, [FromBody] UpdatePermissionCommand command)
         {
+            // Asigna el ID de la ruta al comando; las validaciones se realizan en el handler.
             command.Id = id;
             var success = await _mediator.Send(command);
             if (!success)
@@ -96,14 +97,14 @@ namespace N5.Permissions.Api.Controllers
         /// <summary>
         /// Reindexa los permisos en Elasticsearch.
         /// </summary>
-        /// <returns>Mensaje de éxito o error.</returns>
+        /// <returns>No Content si es exitoso; Error 500 en caso de fallo.</returns>
         [HttpPost("reindex")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ReindexPermissions()
         {
             var success = await _mediator.Send(new ReindexPermissionsCommand());
-            return success ? Ok("Reindexación completada") : StatusCode(500, "Error en la reindexación");
+            return success ? NoContent() : StatusCode(500, "Error en la reindexación");
         }
     }
 }
