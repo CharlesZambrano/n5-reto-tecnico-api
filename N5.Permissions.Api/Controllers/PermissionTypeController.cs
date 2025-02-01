@@ -3,8 +3,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using N5.Permissions.Application.Commands.PermissionTypeCommand;
+using N5.Permissions.Application.DTOs;
 using N5.Permissions.Application.Queries.PermissionTypeQuerie;
-using N5.Permissions.Domain.Entities;
 
 namespace N5.Permissions.Api.Controllers
 {
@@ -20,23 +20,37 @@ namespace N5.Permissions.Api.Controllers
         }
 
         /// <summary>
-        /// Obtener todos los tipos de permisos
+        /// Obtener todos los tipos de permisos (sin la propiedad 'permissions')
         /// </summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PermissionType>>> GetPermissionTypes()
+        public async Task<ActionResult<IEnumerable<PermissionTypeDto>>> GetPermissionTypes()
         {
-            var result = await _mediator.Send(new GetPermissionTypesQuery());
-            return Ok(result);
+            var permissionTypes = await _mediator.Send(new GetPermissionTypesQuery());
+            var dtos = permissionTypes.Select(pt => new PermissionTypeDto
+            {
+                Id = pt.Id,
+                Description = pt.Description,
+                Code = pt.Code
+            }).ToList();
+
+            return Ok(dtos);
         }
 
         /// <summary>
-        /// Crear un nuevo tipo de permiso
+        /// Crear un nuevo tipo de permiso (devuelve solo id, description y code)
         /// </summary>
         [HttpPost]
-        public async Task<ActionResult<PermissionType>> CreatePermissionType([FromBody] CreatePermissionTypeCommand command)
+        public async Task<ActionResult<PermissionTypeDto>> CreatePermissionType([FromBody] CreatePermissionTypeCommand command)
         {
-            var result = await _mediator.Send(command);
-            return CreatedAtAction(nameof(GetPermissionTypes), new { id = result.Id }, result);
+            var permissionType = await _mediator.Send(command);
+            var dto = new PermissionTypeDto
+            {
+                Id = permissionType.Id,
+                Description = permissionType.Description,
+                Code = permissionType.Code
+            };
+
+            return CreatedAtAction(nameof(GetPermissionTypes), new { id = dto.Id }, dto);
         }
     }
 }
