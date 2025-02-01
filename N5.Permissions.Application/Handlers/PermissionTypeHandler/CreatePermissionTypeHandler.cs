@@ -6,6 +6,7 @@ using N5.Permissions.Application.Commands.PermissionTypeCommand;
 using N5.Permissions.Application.DTOs;
 using N5.Permissions.Domain.Entities;
 using N5.Permissions.Domain.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace N5.Permissions.Application.Handlers.PermissionTypeHandler
 {
@@ -22,6 +23,14 @@ namespace N5.Permissions.Application.Handlers.PermissionTypeHandler
 
         public async Task<PermissionTypeDto> Handle(CreatePermissionTypeCommand request, CancellationToken cancellationToken)
         {
+            // Validaciones en el handler
+            if (string.IsNullOrWhiteSpace(request.Description))
+                throw new ValidationException("Description is required.");
+            if (string.IsNullOrWhiteSpace(request.Code))
+                throw new ValidationException("Code is required.");
+            if (request.Code.Length != 3)
+                throw new ValidationException("Code must be exactly 3 characters long.");
+
             if (await _unitOfWork.PermissionTypes.ExistsByCode(request.Code))
                 throw new ArgumentException("Permission type with this code already exists.");
 

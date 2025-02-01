@@ -19,14 +19,26 @@ namespace N5.Permissions.Api.Controllers
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// Obtiene todos los permisos.
+        /// </summary>
+        /// <returns>Lista de permisos.</returns>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<PermissionDto>>> GetPermissions()
         {
             var result = await _mediator.Send(new GetPermissionsQuery());
             return Ok(result);
         }
 
+        /// <summary>
+        /// Obtiene un permiso por su ID.
+        /// </summary>
+        /// <param name="id">ID del permiso.</param>
+        /// <returns>El permiso encontrado.</returns>
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<PermissionDto>> GetPermissionById(int id)
         {
             var result = await _mediator.Send(new GetPermissionByIdQuery(id));
@@ -35,19 +47,32 @@ namespace N5.Permissions.Api.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Crea un nuevo permiso.
+        /// </summary>
+        /// <param name="command">Comando con los datos del nuevo permiso.</param>
+        /// <returns>El permiso creado.</returns>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<PermissionDto>> CreatePermission([FromBody] CreatePermissionCommand command)
         {
             var dto = await _mediator.Send(command);
             return CreatedAtAction(nameof(GetPermissionById), new { id = dto.Id }, dto);
         }
 
+        /// <summary>
+        /// Modifica un permiso existente.
+        /// </summary>
+        /// <param name="id">ID del permiso a modificar.</param>
+        /// <param name="command">Datos actualizados del permiso.</param>
+        /// <returns>No content si es exitoso; BadRequest o NotFound en caso contrario.</returns>
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdatePermission(int id, [FromBody] UpdatePermissionCommand command)
         {
-            if (id != command.Id)
-                return BadRequest("El ID del permiso no coincide con el de la URL.");
-
+            command.Id = id;
             var success = await _mediator.Send(command);
             if (!success)
                 return NotFound();
@@ -55,14 +80,26 @@ namespace N5.Permissions.Api.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Busca permisos usando un término de consulta.
+        /// </summary>
+        /// <param name="query">Texto a buscar.</param>
+        /// <returns>Lista de permisos que coinciden con la búsqueda.</returns>
         [HttpGet("search")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<PermissionDto>>> SearchPermissions([FromQuery] string query)
         {
             var result = await _mediator.Send(new SearchPermissionsQuery(query));
             return Ok(result);
         }
 
+        /// <summary>
+        /// Reindexa los permisos en Elasticsearch.
+        /// </summary>
+        /// <returns>Mensaje de éxito o error.</returns>
         [HttpPost("reindex")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ReindexPermissions()
         {
             var success = await _mediator.Send(new ReindexPermissionsCommand());

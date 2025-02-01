@@ -10,6 +10,7 @@ using System.Reflection;
 using N5.Permissions.Infrastructure.Elasticsearch.Services;
 using Elastic.Clients.Elasticsearch;
 using System.Text.Json.Serialization;
+using N5.Permissions.Api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,6 +63,7 @@ builder.Services.AddSwaggerGen(c =>
 var app = builder.Build();
 
 // Configurar el pipeline HTTP
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -71,6 +73,9 @@ if (app.Environment.IsDevelopment())
         c.RoutePrefix = string.Empty;
     });
 }
+
+// Insertar el middleware de excepciones globales
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
