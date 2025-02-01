@@ -1,52 +1,13 @@
-# *? n5-reto-tecnico-api/.gitignore
-
-# Visual Studio archivos de usuario y configuración
+/N5.Permissions.Api/obj
+/N5.Permissions.Application/obj
+/N5.Permissions.Domain/obj
+/N5.Permissions.Infrastructure/obj
+/N5.Permissions.Tests/obj
+/N5.Permissions.Api/bin
+/N5.Permissions.Application/bin
+/N5.Permissions.Domain/bin
+/N5.Permissions.Infrastructure/bin
+/N5.Permissions.Tests/bin
 /.vs
-*.suo
-*.user
-*.userosscache
-*.sln.docstates
-
-# Archivos de compilación
-bin/
-obj/
-*.dll
-*.exe
-*.pdb
-*.log
-
-# Archivos de dependencias y paquetes
-packages/
-node_modules/
-bower_components/
-
-# Configuración y caché de herramientas
-.vscode/
-*.log
-*.ncb
-*.opendb
-*.sdf
-*.sln.cache
-
-# Archivos de configuración de sistema operativo
-.DS_Store
-Thumbs.db
-
-# Docker
-docker-compose.override.yml
-
-# Configuración de base de datos local
-appsettings.Development.json
-appsettings.Local.json
-
-# Archivos de entorno
-.env
-.env.local
-.env.development
-.env.production
-.env.test
-
-# Archivos generados por Rider y Resharper
-.idea/
-*.sln.iml
-*.dotSettings.user
+/.github/workflows
+/.vscode

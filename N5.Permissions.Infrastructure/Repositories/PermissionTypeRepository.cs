@@ -18,12 +18,26 @@ namespace N5.Permissions.Infrastructure.Repositories
 
         public async Task<IEnumerable<PermissionType>> GetAllAsync()
         {
-            return await _context.PermissionTypes.ToListAsync();
+            return await _context.PermissionTypes
+                .Include(p => p.Permissions)
+                .ToListAsync();
         }
 
         public async Task<PermissionType?> GetByIdAsync(int id)
         {
-            return await _context.PermissionTypes.FindAsync(id);
+            return await _context.PermissionTypes
+                .Include(p => p.Permissions)
+                .FirstOrDefaultAsync(p => p.Id == id);
+        }
+
+        public async Task<bool> ExistsByCode(string code)
+        {
+            return await _context.PermissionTypes.AnyAsync(pt => pt.Code == code);
+        }
+
+        public async Task AddAsync(PermissionType permissionType)
+        {
+            await _context.PermissionTypes.AddAsync(permissionType);
         }
     }
 }

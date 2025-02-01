@@ -2,9 +2,8 @@
 
 using Elastic.Clients.Elasticsearch;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
 using N5.Permissions.Domain.Entities;
-
+using N5.Permissions.Infrastructure.Elasticsearch.Models;
 
 namespace N5.Permissions.Infrastructure.Elasticsearch.Services
 {
@@ -14,51 +13,108 @@ namespace N5.Permissions.Infrastructure.Elasticsearch.Services
         private readonly ILogger<ElasticsearchService> _logger;
         private const string IndexName = "permissions";
 
-        public ElasticsearchService(IConfiguration configuration, ILogger<ElasticsearchService> logger)
+        public ElasticsearchService(ElasticsearchClient elasticClient, ILogger<ElasticsearchService> logger)
         {
+            _elasticClient = elasticClient;
             _logger = logger;
-            var uri = configuration["Elasticsearch:Uri"];
-
-            if (string.IsNullOrEmpty(uri))
-            {
-                throw new ArgumentNullException(nameof(uri), "Elasticsearch URI no está configurado en appsettings.json");
-            }
-
-            var settings = new ElasticsearchClientSettings(new Uri(uri))
-                .DefaultIndex(IndexName);
-
-            _elasticClient = new ElasticsearchClient(settings);
         }
 
+        /// <summary>
+        /// Indexa (o actualiza) un permiso en Elasticsearch,
+        /// usando un documento "EsPermissionDoc" con la info necesaria.
+        /// </summary>
         public async Task IndexPermissionAsync(Permission permission)
         {
-            var response = await _elasticClient.IndexAsync(permission, idx => idx.Index(IndexName));
-
-            if (!response.IsValidResponse)
+            try
             {
-                _logger.LogError($"Error indexing permission: {response.DebugInformation}");
+                var doc = new EsPermissionDoc
+                {
+                    Id = permission.Id,
+                    EmployeeName = permission.EmployeeName,
+                    EmployeeSurname = permission.EmployeeSurname,
+                    PermissionTypeId = permission.PermissionTypeId,
+                    PermissionDate = permission.PermissionDate,
+                    PermissionTypeDescription = permission.PermissionType?.Description,
+                    PermissionTypeCode = permission.PermissionType?.Code
+                };
+
+                var response = await _elasticClient.IndexAsync(
+                    doc,
+                    idx => idx.Index(IndexName).Id(doc.Id)
+                );
+
+                if (!response.IsValidResponse)
+                {
+                    _logger.LogError($"Error al indexar el permiso en Elasticsearch: {response.DebugInformation}");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Excepción al indexar el permiso en Elasticsearch: {ex.Message}");
             }
         }
 
-        public async Task<IReadOnlyCollection<Permission>> SearchPermissionsAsync(string query)
+        /// <summary>
+        /// Obtiene todos los documentos de permisos desde Elasticsearch (EsPermissionDoc).
+        /// </summary>
+        public async Task<IEnumerable<EsPermissionDoc>> GetAllPermissionsAsync()
         {
-            var response = await _elasticClient.SearchAsync<Permission>(s => s
-                .Index(IndexName)
-                .Query(q => q
-                    .Wildcard(w => w
-                        .Field(f => f.EmployeeName)
-                        .Value($"*{query}*")
-                    )
-                )
-            );
-
-            if (!response.IsValidResponse)
+            try
             {
-                _logger.LogError($"Error searching permissions: {response.DebugInformation}");
-                return new List<Permission>();
-            }
+                var response = await _elasticClient.SearchAsync<EsPermissionDoc>(s => s
+                    .Index(IndexName)
+                    .Query(q => q.MatchAll(m => { }))
+                    .Size(1000)
+                );
 
-            return response.Documents;
+                if (response.IsValidResponse)
+                {
+                    return response.Documents;
+                }
+                else
+                {
+                    _logger.LogError($"Error al obtener permisos de Elasticsearch: {response.DebugInformation}");
+                    return Enumerable.Empty<EsPermissionDoc>();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Excepción al obtener permisos de Elasticsearch: {ex.Message}");
+                return Enumerable.Empty<EsPermissionDoc>();
+            }
+        }
+
+        /// <summary>
+        /// Busca permisos en Elasticsearch usando un término de búsqueda (full-text).
+        /// </summary>
+        public async Task<IEnumerable<EsPermissionDoc>> SearchPermissionsAsync(string query)
+        {
+            try
+            {
+                var response = await _elasticClient.SearchAsync<EsPermissionDoc>(s => s
+                    .Index(IndexName)
+                    .Query(q => q
+                        .QueryString(qs => qs
+                            .Query(query)
+                        )
+                    )
+                );
+
+                if (response.IsValidResponse)
+                {
+                    return response.Documents;
+                }
+                else
+                {
+                    _logger.LogError($"Error al buscar permisos en Elasticsearch: {response.DebugInformation}");
+                    return Enumerable.Empty<EsPermissionDoc>();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Excepción al buscar permisos en Elasticsearch: {ex.Message}");
+                return Enumerable.Empty<EsPermissionDoc>();
+            }
         }
     }
 }
