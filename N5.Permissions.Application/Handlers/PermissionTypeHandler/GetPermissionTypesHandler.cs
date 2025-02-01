@@ -5,7 +5,7 @@ using N5.Permissions.Application.Queries.PermissionTypeQuerie;
 using N5.Permissions.Domain.Entities;
 using N5.Permissions.Domain.Interfaces;
 
-namespace N5.Permissions.Application.Handlers.PermissionHandler
+namespace N5.Permissions.Application.Handlers.PermissionTypeHandler
 {
     public class GetPermissionTypesHandler : IRequestHandler<GetPermissionTypesQuery, IEnumerable<PermissionType>>
     {

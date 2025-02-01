@@ -37,7 +37,7 @@ namespace N5.Permissions.Api.Controllers
         }
 
         /// <summary>
-        /// Crear un nuevo tipo de permiso (devuelve solo id, description y code)
+        /// Crear un nuevo tipo de permiso
         /// </summary>
         [HttpPost]
         public async Task<ActionResult<PermissionTypeDto>> CreatePermissionType([FromBody] CreatePermissionTypeCommand command)
