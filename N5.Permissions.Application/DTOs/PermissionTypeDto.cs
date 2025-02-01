@@ -6,6 +6,6 @@ namespace N5.Permissions.Application.DTOs
     {
         public int Id { get; set; }
         public string Description { get; set; }
+        public string Code { get; set; }
     }
 }
-

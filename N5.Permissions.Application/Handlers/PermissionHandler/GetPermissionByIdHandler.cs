@@ -31,7 +31,8 @@ namespace N5.Permissions.Application.Handlers.PermissionHandler
                 PermissionType = new PermissionTypeDto
                 {
                     Id = permission.PermissionType.Id,
-                    Description = permission.PermissionType.Description
+                    Description = permission.PermissionType.Description,
+                    Code = permission.PermissionType.Code
                 }
             };
         }
