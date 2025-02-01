@@ -1,6 +1,7 @@
 // *? n5-reto-tecnico-api/N5.Permissions.Api/Program.cs
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using N5.Permissions.Infrastructure.Persistence;
 using N5.Permissions.Infrastructure.Repositories;
 using N5.Permissions.Domain.Interfaces.Repositories;
@@ -9,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using N5.Permissions.Infrastructure.Elasticsearch.Services;
 using Elastic.Clients.Elasticsearch;
+using System.Text;
 using System.Text.Json.Serialization;
 using N5.Permissions.Api.Middlewares;
 
@@ -27,6 +29,33 @@ var settings = new ElasticsearchClientSettings(new Uri(elasticsearchUri))
 builder.Services.AddSingleton(new ElasticsearchClient(settings));
 builder.Services.AddSingleton<ElasticsearchService>();
 
+// Configuración de JWT
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+var secretKey = jwtSettings.GetValue<string>("Secret");
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = "JwtBearer";
+    options.DefaultChallengeScheme = "JwtBearer";
+})
+.AddJwtBearer("JwtBearer", options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidAudience = jwtSettings["Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+    };
+});
+
+// Registrar servicios personalizados
+builder.Services.AddScoped<TokenService>();
+builder.Services.AddScoped<UserService>();
+
 // Agregar servicios
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -41,14 +70,14 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     Assembly.Load("N5.Permissions.Application")
 ));
 
-// Registrar AutoMapper para que se descubran automáticamente los perfiles
+// Registrar AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Configurar SQL Server con EF Core
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Registrar Repositorios en la inyección de dependencias
+// Registrar Repositorios
 builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
 builder.Services.AddScoped<IPermissionTypeRepository, PermissionTypeRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -58,12 +87,30 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "N5 Permissions API", Version = "v1" });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Ingrese el token JWT generado"
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+            },
+            new string[] {}
+        }
+    });
 });
 
 var app = builder.Build();
 
 // Configurar el pipeline HTTP
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -74,11 +121,13 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-// Insertar el middleware de excepciones globales
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();

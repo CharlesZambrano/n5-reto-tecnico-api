@@ -1,6 +1,7 @@
 ﻿// *? n5-reto-tecnico-api/N5.Permissions.Api/Controllers/PermissionController.cs
 
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using N5.Permissions.Application.Commands.PermissionCommand;
 using N5.Permissions.Application.DTOs;
@@ -9,6 +10,7 @@ using N5.Permissions.Application.Queries.PermissionQuerie;
 namespace N5.Permissions.Api.Controllers
 {
     [ApiController]
+    [Authorize(Roles = "User,Administrator")]
     [Route("api/[controller]")]
     public class PermissionController : ControllerBase
     {
