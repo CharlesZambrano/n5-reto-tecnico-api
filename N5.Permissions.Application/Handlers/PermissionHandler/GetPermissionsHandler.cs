@@ -4,25 +4,28 @@ using MediatR;
 using AutoMapper;
 using N5.Permissions.Application.DTOs;
 using N5.Permissions.Application.Queries.PermissionQuerie;
-using N5.Permissions.Domain.Interfaces;
+using N5.Permissions.Infrastructure.Elasticsearch.Services;
 
 namespace N5.Permissions.Application.Handlers.PermissionHandler
 {
     public class GetPermissionsHandler : IRequestHandler<GetPermissionsQuery, IEnumerable<PermissionDto>>
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ElasticsearchService _elasticsearchService;
         private readonly IMapper _mapper;
 
-        public GetPermissionsHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public GetPermissionsHandler(ElasticsearchService elasticsearchService, IMapper mapper)
         {
-            _unitOfWork = unitOfWork;
+            _elasticsearchService = elasticsearchService;
             _mapper = mapper;
         }
 
         public async Task<IEnumerable<PermissionDto>> Handle(GetPermissionsQuery request, CancellationToken cancellationToken)
         {
-            var permissions = await _unitOfWork.Permissions.GetAllAsync();
-            return _mapper.Map<IEnumerable<PermissionDto>>(permissions);
+            // Se consultan todos los documentos de ES
+            var esDocs = await _elasticsearchService.GetAllPermissionsAsync();
+
+            // Mapear de EsPermissionDoc -> PermissionDto (usando EsPermissionDocProfile)
+            return _mapper.Map<IEnumerable<PermissionDto>>(esDocs);
         }
     }
 }
