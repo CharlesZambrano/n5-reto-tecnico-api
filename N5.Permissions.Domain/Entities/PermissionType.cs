@@ -15,7 +15,10 @@ namespace N5.Permissions.Domain.Entities
         [MaxLength(255)]
         public required string Description { get; set; }
 
-        // Relación con Permissions (1 tipo puede tener muchos permisos)
+        [Required]
+        [MaxLength(3)]
+        public required string Code { get; set; }
+
         public required ICollection<Permission> Permissions { get; set; }
     }
 }

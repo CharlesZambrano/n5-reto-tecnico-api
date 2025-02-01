@@ -18,9 +18,15 @@ namespace N5.Permissions.Application.Handlers.PermissionTypeHandler
 
         public async Task<PermissionType> Handle(CreatePermissionTypeCommand request, CancellationToken cancellationToken)
         {
+            if (await _unitOfWork.PermissionTypes.ExistsByCode(request.Code))
+            {
+                throw new ArgumentException("Permission type with this code already exists.");
+            }
+
             var permissionType = new PermissionType
             {
                 Description = request.Description,
+                Code = request.Code,
                 Permissions = new List<Permission>()
             };
 

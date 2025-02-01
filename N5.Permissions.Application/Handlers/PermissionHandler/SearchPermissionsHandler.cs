@@ -2,12 +2,12 @@
 
 using MediatR;
 using N5.Permissions.Application.Queries.PermissionQuerie;
-using N5.Permissions.Domain.Entities;
+using N5.Permissions.Application.DTOs;
 using N5.Permissions.Infrastructure.Elasticsearch.Services;
 
 namespace N5.Permissions.Application.Handlers.PermissionHandler
 {
-    public class SearchPermissionsHandler : IRequestHandler<SearchPermissionsQuery, IEnumerable<Permission>>
+    public class SearchPermissionsHandler : IRequestHandler<SearchPermissionsQuery, IEnumerable<PermissionDto>>
     {
         private readonly ElasticsearchService _elasticsearchService;
 
@@ -16,9 +16,23 @@ namespace N5.Permissions.Application.Handlers.PermissionHandler
             _elasticsearchService = elasticsearchService;
         }
 
-        public async Task<IEnumerable<Permission>> Handle(SearchPermissionsQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<PermissionDto>> Handle(SearchPermissionsQuery request, CancellationToken cancellationToken)
         {
-            return await _elasticsearchService.SearchPermissionsAsync(request.Query);
+            var permissions = await _elasticsearchService.SearchPermissionsAsync(request.Query);
+
+            return permissions.Select(p => new PermissionDto
+            {
+                Id = p.Id,
+                EmployeeName = p.EmployeeName,
+                EmployeeSurname = p.EmployeeSurname,
+                PermissionTypeId = p.PermissionTypeId,
+                PermissionDate = p.PermissionDate,
+                PermissionType = new PermissionTypeDto
+                {
+                    Id = p.PermissionType.Id,
+                    Description = p.PermissionType.Description
+                }
+            }).ToList();
         }
     }
 }

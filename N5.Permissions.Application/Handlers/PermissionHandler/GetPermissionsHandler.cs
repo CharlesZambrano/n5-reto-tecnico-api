@@ -2,12 +2,12 @@
 
 using MediatR;
 using N5.Permissions.Application.Queries.PermissionQuerie;
-using N5.Permissions.Domain.Entities;
+using N5.Permissions.Application.DTOs;
 using N5.Permissions.Domain.Interfaces;
 
 namespace N5.Permissions.Application.Handlers.PermissionHandler
 {
-    public class GetPermissionsHandler : IRequestHandler<GetPermissionsQuery, IEnumerable<Permission>>
+    public class GetPermissionsHandler : IRequestHandler<GetPermissionsQuery, IEnumerable<PermissionDto>>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -16,9 +16,23 @@ namespace N5.Permissions.Application.Handlers.PermissionHandler
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<Permission>> Handle(GetPermissionsQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<PermissionDto>> Handle(GetPermissionsQuery request, CancellationToken cancellationToken)
         {
-            return await _unitOfWork.Permissions.GetAllAsync();
+            var permissions = await _unitOfWork.Permissions.GetAllAsync();
+
+            return permissions.Select(p => new PermissionDto
+            {
+                Id = p.Id,
+                EmployeeName = p.EmployeeName,
+                EmployeeSurname = p.EmployeeSurname,
+                PermissionTypeId = p.PermissionTypeId,
+                PermissionDate = p.PermissionDate,
+                PermissionType = new PermissionTypeDto
+                {
+                    Id = p.PermissionType.Id,
+                    Description = p.PermissionType.Description
+                }
+            }).ToList();
         }
     }
 }

@@ -73,5 +73,15 @@ namespace N5.Permissions.Api.Controllers
             var result = await _mediator.Send(new SearchPermissionsQuery(query));
             return Ok(result);
         }
+
+        /// <summary>
+        /// Reindexar permisos en Elasticsearch
+        /// </summary>j
+        [HttpPost("reindex")]
+        public async Task<IActionResult> ReindexPermissions()
+        {
+            var success = await _mediator.Send(new ReindexPermissionsCommand());
+            return success ? Ok("Reindexación completada") : StatusCode(500, "Error en la reindexación");
+        }
     }
 }

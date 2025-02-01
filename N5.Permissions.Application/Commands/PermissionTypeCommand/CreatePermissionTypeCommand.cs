@@ -7,6 +7,7 @@ namespace N5.Permissions.Application.Commands.PermissionTypeCommand
 {
     public class CreatePermissionTypeCommand : IRequest<PermissionType>
     {
+        public required string Code { get; set; }
         public required string Description { get; set; }
     }
 }

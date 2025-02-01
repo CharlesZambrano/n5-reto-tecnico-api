@@ -19,11 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\" />
-    <Folder Include="Configurations\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="appsettings.Development.json" />
     <None Include="appsettings.json" />
   </ItemGroup>

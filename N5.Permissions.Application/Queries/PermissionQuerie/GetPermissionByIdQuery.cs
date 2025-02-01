@@ -1,11 +1,11 @@
-﻿// *? n5-reto-tecnico-api/N5.Permissions.Application/Queries/Permission/GetPermissionByIdQuery.cs
+﻿// *? n5-reto-tecnico-api/N5.Permissions.Application/Queries/PermissionQuerie/GetPermissionByIdQuery.cs
 
 using MediatR;
-using N5.Permissions.Domain.Entities;
+using N5.Permissions.Application.DTOs;
 
 namespace N5.Permissions.Application.Queries.PermissionQuerie
 {
-    public class GetPermissionByIdQuery : IRequest<Permission?>
+    public class GetPermissionByIdQuery : IRequest<PermissionDto?>
     {
         public int Id { get; }
 

@@ -9,6 +9,7 @@ using System.Reflection;
 using N5.Permissions.Infrastructure.Elasticsearch.Services;
 using Elastic.Clients.Elasticsearch;
 using N5.Permissions.Domain.Interfaces;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 var elasticsearchUri = builder.Configuration["Elasticsearch:Uri"];
 if (string.IsNullOrEmpty(elasticsearchUri))
 {
-    throw new ArgumentNullException(nameof(elasticsearchUri), "Elasticsearch URI no est� configurado en appsettings.json");
+    throw new ArgumentNullException(nameof(elasticsearchUri), "Elasticsearch URI no esta configurado en appsettings.json");
 }
 
 var settings = new ElasticsearchClientSettings(new Uri(elasticsearchUri))
@@ -27,7 +28,12 @@ builder.Services.AddSingleton<ElasticsearchService>();
 
 
 // Agregar servicios
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.WriteIndented = true;
+    });
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
     Assembly.GetExecutingAssembly(),
     Assembly.Load("N5.Permissions.Application")

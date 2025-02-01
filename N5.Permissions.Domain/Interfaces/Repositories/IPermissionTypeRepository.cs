@@ -9,5 +9,6 @@ namespace N5.Permissions.Domain.Interfaces.Repositories
         Task<IEnumerable<PermissionType>> GetAllAsync();
         Task<PermissionType?> GetByIdAsync(int id);
         Task AddAsync(PermissionType permissionType);
+        Task<bool> ExistsByCode(string code);
     }
 }
