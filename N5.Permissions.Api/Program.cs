@@ -58,6 +58,18 @@ namespace N5.Permissions.Api
                 };
             });
 
+            // Configuración de CORS
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontendDev",
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:3000")
+                              .AllowAnyHeader()
+                              .AllowAnyMethod();
+                    });
+            });
+
             // Registrar servicios personalizados
             builder.Services.AddScoped<TokenService>();
             builder.Services.AddScoped<UserService>();
@@ -130,6 +142,8 @@ namespace N5.Permissions.Api
             app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             app.UseHttpsRedirection();
+
+            app.UseCors("AllowFrontendDev");
 
             app.UseAuthentication();
             app.UseAuthorization();
