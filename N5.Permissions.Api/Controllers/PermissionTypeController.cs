@@ -22,9 +22,9 @@ namespace N5.Permissions.Api.Controllers
         }
 
         /// <summary>
-        /// Obtiene todos los tipos de permisos.
+        /// Obtains all types of permissions.
         /// </summary>
-        /// <returns>Lista de tipos de permisos.</returns>
+        /// <returns>List of permission types.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<PermissionTypeDto>>> GetPermissionTypes()
@@ -34,10 +34,10 @@ namespace N5.Permissions.Api.Controllers
         }
 
         /// <summary>
-        /// Crea un nuevo tipo de permiso.
+        /// Create a new permission type.
         /// </summary>
-        /// <param name="command">Comando con los datos del nuevo tipo de permiso.</param>
-        /// <returns>El tipo de permiso creado.</returns>
+        /// <param name="command">Command with the data of the new type of permission.</param>
+        /// <returns>The type of permission created.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

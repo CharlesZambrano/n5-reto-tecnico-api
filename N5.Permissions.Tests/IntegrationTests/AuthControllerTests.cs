@@ -12,16 +12,11 @@ public class AuthControllerTests
 
     public AuthControllerTests()
     {
-        // 1) Creamos el host
         IHost testHost = TestHostBuilder.CreateTestHost();
-        // 2) Arrancamos
         testHost.Start();
 
-        // 3) Sembramos datos (si deseas semilla global, hazlo una sola vez).
-        //    O hazlo en cada test, como prefieras.
         TestHostBuilder.SeedData(testHost);
 
-        // 4) Obtenemos el TestServer y creamos HttpClient
         var server = testHost.GetTestServer();
         _client = server.CreateClient();
     }

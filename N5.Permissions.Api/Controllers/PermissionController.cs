@@ -22,9 +22,9 @@ namespace N5.Permissions.Api.Controllers
         }
 
         /// <summary>
-        /// Obtiene todos los permisos.
+        /// Get all permissions.
         /// </summary>
-        /// <returns>Lista de permisos.</returns>
+        /// <returns>List of permissions.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<PermissionDto>>> GetPermissions()
@@ -34,10 +34,10 @@ namespace N5.Permissions.Api.Controllers
         }
 
         /// <summary>
-        /// Obtiene un permiso por su ID.
+        /// Get a permission by ID.
         /// </summary>
-        /// <param name="id">ID del permiso.</param>
-        /// <returns>El permiso encontrado.</returns>
+        /// <param name="id">Permission ID. </param>
+        /// <returns>Permission found.</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -50,10 +50,10 @@ namespace N5.Permissions.Api.Controllers
         }
 
         /// <summary>
-        /// Crea un nuevo permiso.
+        /// Create a new permission.
         /// </summary>
-        /// <param name="command">Comando con los datos del nuevo permiso.</param>
-        /// <returns>El permiso creado.</returns>
+        /// <param name="command">Command with the new permission data.</param>
+        /// <returns>The permission created.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -64,17 +64,16 @@ namespace N5.Permissions.Api.Controllers
         }
 
         /// <summary>
-        /// Modifica un permiso existente.
+        /// Modify an existing permission.
         /// </summary>
-        /// <param name="id">ID del permiso a modificar.</param>
-        /// <param name="command">Datos actualizados del permiso.</param>
-        /// <returns>No content si es exitoso; NotFound en caso contrario.</returns>
+        /// <param name="id">ID of the permission to modify.</param>
+        /// <param name="command">Updated permission data.</param>
+        /// <returns>No content if successful; NotFound otherwise.</returns>
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdatePermission(int id, [FromBody] UpdatePermissionCommand command)
         {
-            // Asigna el ID de la ruta al comando; las validaciones se realizan en el handler.
             command.Id = id;
             var success = await _mediator.Send(command);
             if (!success)
@@ -84,10 +83,10 @@ namespace N5.Permissions.Api.Controllers
         }
 
         /// <summary>
-        /// Busca permisos usando un término de consulta.
+        /// Search for permissions using a query term.
         /// </summary>
-        /// <param name="query">Texto a buscar.</param>
-        /// <returns>Lista de permisos que coinciden con la búsqueda.</returns>
+        /// <param name="query">Text to search for.</param>
+        /// <returns>List of permissions that match the search.</returns>
         [HttpGet("search")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<PermissionDto>>> SearchPermissions([FromQuery] string query)
@@ -97,9 +96,9 @@ namespace N5.Permissions.Api.Controllers
         }
 
         /// <summary>
-        /// Reindexa los permisos en Elasticsearch.
+        /// Reindex permissions in Elasticsearch.
         /// </summary>
-        /// <returns>No Content si es exitoso; Error 500 en caso de fallo.</returns>
+        /// <returns>No Content on success; Error 500 on failure.</returns>
         [HttpPost("reindex")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

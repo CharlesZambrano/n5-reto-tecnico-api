@@ -23,7 +23,6 @@ namespace N5.Permissions.Application.Handlers.PermissionTypeHandler
 
         public async Task<PermissionTypeDto> Handle(CreatePermissionTypeCommand request, CancellationToken cancellationToken)
         {
-            // Validaciones en el handler
             if (string.IsNullOrWhiteSpace(request.Description))
                 throw new ValidationException("Description is required.");
             if (string.IsNullOrWhiteSpace(request.Code))

@@ -25,7 +25,6 @@ namespace N5.Permissions.Domain.Entities
         [Required]
         public required DateTime PermissionDate { get; set; }
 
-        // Relación con PermissionType
         [ForeignKey("PermissionTypeId")]
         public required PermissionType PermissionType { get; set; }
     }

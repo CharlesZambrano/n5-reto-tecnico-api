@@ -21,10 +21,8 @@ namespace N5.Permissions.Application.Handlers.PermissionHandler
 
         public async Task<IEnumerable<PermissionDto>> Handle(SearchPermissionsQuery request, CancellationToken cancellationToken)
         {
-            // Buscar en Elasticsearch los documentos
             var esDocs = await _elasticsearchService.SearchPermissionsAsync(request.Query);
 
-            // Mapear al DTO de salida
             return _mapper.Map<IEnumerable<PermissionDto>>(esDocs);
         }
     }

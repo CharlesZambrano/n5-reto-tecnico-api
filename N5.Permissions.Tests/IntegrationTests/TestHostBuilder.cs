@@ -26,8 +26,6 @@ namespace N5.Permissions.Tests.IntegrationTests
             var builder = Host.CreateDefaultBuilder()
                 .ConfigureAppConfiguration((context, config) =>
                 {
-                    // Carga (si gustas) la configuración real (appsettings.json)
-                    // Pero ya no la usaremos para JWT, pues haremos un fake scheme
                     config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: false);
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
@@ -35,11 +33,10 @@ namespace N5.Permissions.Tests.IntegrationTests
                     webBuilder.UseTestServer();
                     webBuilder.Configure((ctx, app) =>
                     {
-                        // Middleware de excepción, routing y endpoints
                         app.UseMiddleware<ExceptionHandlingMiddleware>();
                         app.UseRouting();
 
-                        app.UseAuthentication(); // Fake scheme
+                        app.UseAuthentication();
                         app.UseAuthorization();
 
                         app.UseEndpoints(endpoints =>
@@ -48,29 +45,21 @@ namespace N5.Permissions.Tests.IntegrationTests
                         });
                     });
 
-                    // En lugar de AddJwtBearer, usamos un fake scheme
                     webBuilder.ConfigureServices((ctx, services) =>
                     {
-                        // Registramos config (por si la necesitas en otras partes)
                         services.AddSingleton<IConfiguration>(ctx.Configuration);
 
-                        // Elasticsearch (si lo deseas, igual)
                         var elasticsearchUri = "http://localhost:9200";
                         var settings = new ElasticsearchClientSettings(new Uri(elasticsearchUri))
                             .DefaultIndex("permissions");
                         services.AddSingleton(new ElasticsearchClient(settings));
                         services.AddSingleton<ElasticsearchService>();
 
-                        // FAKE AUTH SCHEME
-                        // Registramos un handler que siempre "logea" con Rol = "Administrator"
                         services.AddAuthentication("FakeScheme")
                             .AddScheme<AuthenticationSchemeOptions, FakeAuthHandler>(
                                 "FakeScheme", options => { });
 
-                        // Quitamos completamente la config de AddJwtBearer, 
-                        // ya que no la usaremos en test
 
-                        // Tus servicios reales
                         services.AddScoped<TokenService>();
                         services.AddScoped<UserService>();
 
@@ -81,28 +70,23 @@ namespace N5.Permissions.Tests.IntegrationTests
                                 options.JsonSerializerOptions.WriteIndented = true;
                             });
 
-                        // MediatR
                         services.AddMediatR(cfg =>
                             cfg.RegisterServicesFromAssemblies(
                                 Assembly.Load("N5.Permissions.Application")
                             )
                         );
 
-                        // AutoMapper
                         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-                        // InMemory DB
                         services.AddDbContext<ApplicationDbContext>(options =>
                         {
                             options.UseInMemoryDatabase("TestPermissionsDb");
                         });
 
-                        // Repos
                         services.AddScoped<IPermissionRepository, PermissionRepository>();
                         services.AddScoped<IPermissionTypeRepository, PermissionTypeRepository>();
                         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-                        // Controllers
                         services.AddControllers();
                     });
                 });
@@ -115,7 +99,6 @@ namespace N5.Permissions.Tests.IntegrationTests
             using var scope = host.Services.CreateScope();
             var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-            // Crea la DB in-memory si no existe
             db.Database.EnsureCreated();
 
             var vacationType = new PermissionType
@@ -154,7 +137,6 @@ namespace N5.Permissions.Tests.IntegrationTests
         }
     }
 
-    // Handler de autenticación que simula un usuario con rol "Administrator"
     public class FakeAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
         public FakeAuthHandler(
@@ -168,7 +150,6 @@ namespace N5.Permissions.Tests.IntegrationTests
 
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            // Creamos un principal con la Role = "Administrator" para que `[Authorize(Roles="User,Administrator")]` pase.
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, "TestUser"),

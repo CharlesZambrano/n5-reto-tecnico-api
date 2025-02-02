@@ -26,13 +26,11 @@ namespace N5.Permissions.Application.Handlers.PermissionHandler
 
         public async Task<PermissionDto> Handle(CreatePermissionCommand request, CancellationToken cancellationToken)
         {
-            // Validaciones en el handler
             if (string.IsNullOrWhiteSpace(request.EmployeeName))
                 throw new ValidationException("Employee name is required.");
             if (string.IsNullOrWhiteSpace(request.EmployeeSurname))
                 throw new ValidationException("Employee surname is required.");
 
-            // Validación: PermissionDate debe ser solo fecha (sin hora)
             if (request.PermissionDate.TimeOfDay != TimeSpan.Zero)
                 throw new ValidationException("PermissionDate must be in the format yyyy-MM-dd (time must be 00:00:00).");
 

@@ -35,7 +35,6 @@ namespace N5.Permissions.Api.Middlewares
             HttpStatusCode statusCode = HttpStatusCode.InternalServerError;
             string title = "An error occurred while processing your request.";
 
-            // Mapear excepciones específicas utilizando patrones
             switch (exception)
             {
                 case ArgumentNullException _:

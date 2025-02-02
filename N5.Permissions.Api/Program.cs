@@ -22,7 +22,7 @@ namespace N5.Permissions.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Configuración de Elasticsearch
+            // Elasticsearch configuration
             var elasticsearchUri = builder.Configuration["Elasticsearch:Uri"];
             if (string.IsNullOrEmpty(elasticsearchUri))
             {
@@ -35,7 +35,7 @@ namespace N5.Permissions.Api
             builder.Services.AddSingleton(new ElasticsearchClient(settings));
             builder.Services.AddSingleton<ElasticsearchService>();
 
-            // Configuración de JWT
+            // JWT Configuration
             var jwtSettings = builder.Configuration.GetSection("JwtSettings");
             var secretKey = jwtSettings.GetValue<string>("Secret");
 
@@ -58,7 +58,7 @@ namespace N5.Permissions.Api
                 };
             });
 
-            // Configuración de CORS
+            // CORS Configuration
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowFrontendDev",
@@ -70,11 +70,11 @@ namespace N5.Permissions.Api
                     });
             });
 
-            // Registrar servicios personalizados
+            // Register custom services
             builder.Services.AddScoped<TokenService>();
             builder.Services.AddScoped<UserService>();
 
-            // Agregar servicios
+            // Add Services
             builder.Services.AddControllers()
                 .AddJsonOptions(options =>
                 {
@@ -82,25 +82,25 @@ namespace N5.Permissions.Api
                     options.JsonSerializerOptions.WriteIndented = true;
                 });
 
-            // Registrar MediatR
+            // MediatR registration
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
                 Assembly.GetExecutingAssembly(),
                 Assembly.Load("N5.Permissions.Application")
             ));
 
-            // Registrar AutoMapper
+            // AutoMapper registration
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            // Configurar SQL Server con EF Core
+            // Setting up SQL Server with EF Core
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            // Registrar Repositorios
+            // Repositorios registration
             builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
             builder.Services.AddScoped<IPermissionTypeRepository, PermissionTypeRepository>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            // Configurar Swagger
+            // Swagger Configuration
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>
             {
@@ -128,7 +128,7 @@ namespace N5.Permissions.Api
 
             var app = builder.Build();
 
-            // Configurar el pipeline HTTP
+            // Setting up the HTTP pipeline
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();

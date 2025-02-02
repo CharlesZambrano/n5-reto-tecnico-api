@@ -16,13 +16,11 @@ namespace N5.Permissions.Infrastructure.Persistence
         {
             base.OnModelCreating(modelBuilder);
 
-            // Definir relación 1-N entre Permission y PermissionType
             modelBuilder.Entity<Permission>()
                 .HasOne(p => p.PermissionType)
                 .WithMany(pt => pt.Permissions)
                 .HasForeignKey(p => p.PermissionTypeId);
 
-            // Asegurar que Code en PermissionType sea único
             modelBuilder.Entity<PermissionType>()
                 .HasIndex(pt => pt.Code)
                 .IsUnique();
