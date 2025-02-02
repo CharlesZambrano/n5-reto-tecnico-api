@@ -9,9 +9,18 @@ namespace N5.Permissions.Infrastructure.Elasticsearch.Services
 {
     public class ElasticsearchService
     {
-        private readonly ElasticsearchClient _elasticClient;
-        private readonly ILogger<ElasticsearchService> _logger;
+        private readonly ElasticsearchClient? _elasticClient;
+        private readonly ILogger<ElasticsearchService>? _logger;
         private const string IndexName = "permissions";
+
+        /// <summary>
+        /// Constructor sin parámetros para que Moq pueda instanciar la clase.
+        /// OJO: _elasticClient y _logger quedan en null si usas este constructor.
+        /// </summary>
+        public ElasticsearchService()
+        {
+            // Idealmente no se usaría en producción o se haría mock de una interfaz.
+        }
 
         public ElasticsearchService(ElasticsearchClient elasticClient, ILogger<ElasticsearchService> logger)
         {
@@ -38,19 +47,19 @@ namespace N5.Permissions.Infrastructure.Elasticsearch.Services
                     PermissionTypeCode = permission.PermissionType?.Code
                 };
 
-                var response = await _elasticClient.IndexAsync(
+                var response = await _elasticClient!.IndexAsync(
                     doc,
                     idx => idx.Index(IndexName).Id(doc.Id)
                 );
 
                 if (!response.IsValidResponse)
                 {
-                    _logger.LogError($"Error al indexar el permiso en Elasticsearch: {response.DebugInformation}");
+                    _logger?.LogError($"Error al indexar el permiso en Elasticsearch: {response.DebugInformation}");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Excepción al indexar el permiso en Elasticsearch: {ex.Message}");
+                _logger?.LogError($"Excepción al indexar el permiso en Elasticsearch: {ex.Message}");
             }
         }
 
@@ -61,7 +70,7 @@ namespace N5.Permissions.Infrastructure.Elasticsearch.Services
         {
             try
             {
-                var response = await _elasticClient.SearchAsync<EsPermissionDoc>(s => s
+                var response = await _elasticClient!.SearchAsync<EsPermissionDoc>(s => s
                     .Index(IndexName)
                     .Query(q => q.MatchAll(m => { }))
                     .Size(1000)
@@ -73,13 +82,13 @@ namespace N5.Permissions.Infrastructure.Elasticsearch.Services
                 }
                 else
                 {
-                    _logger.LogError($"Error al obtener permisos de Elasticsearch: {response.DebugInformation}");
+                    _logger?.LogError($"Error al obtener permisos de Elasticsearch: {response.DebugInformation}");
                     return Enumerable.Empty<EsPermissionDoc>();
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Excepción al obtener permisos de Elasticsearch: {ex.Message}");
+                _logger?.LogError($"Excepción al obtener permisos de Elasticsearch: {ex.Message}");
                 return Enumerable.Empty<EsPermissionDoc>();
             }
         }
@@ -91,7 +100,7 @@ namespace N5.Permissions.Infrastructure.Elasticsearch.Services
         {
             try
             {
-                var response = await _elasticClient.SearchAsync<EsPermissionDoc>(s => s
+                var response = await _elasticClient!.SearchAsync<EsPermissionDoc>(s => s
                     .Index(IndexName)
                     .Query(q => q
                         .QueryString(qs => qs
@@ -106,13 +115,13 @@ namespace N5.Permissions.Infrastructure.Elasticsearch.Services
                 }
                 else
                 {
-                    _logger.LogError($"Error al buscar permisos en Elasticsearch: {response.DebugInformation}");
+                    _logger?.LogError($"Error al buscar permisos en Elasticsearch: {response.DebugInformation}");
                     return Enumerable.Empty<EsPermissionDoc>();
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Excepción al buscar permisos en Elasticsearch: {ex.Message}");
+                _logger?.LogError($"Excepción al buscar permisos en Elasticsearch: {ex.Message}");
                 return Enumerable.Empty<EsPermissionDoc>();
             }
         }

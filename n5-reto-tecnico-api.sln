@@ -10,6 +10,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "N5.Permissions.Infrastructure", "N5.Permissions.Infrastructure\N5.Permissions.Infrastructure.csproj", "{E0C8A385-0C2A-4DFA-9840-58A6830606B3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "N5.Permissions.Tests", "N5.Permissions.Tests\N5.Permissions.Tests.csproj", "{7BDAD34E-B10E-49E5-A4AD-F76A030EE123}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7AA7BF53-D83C-4502-8425-63EF6E0D6602} = {7AA7BF53-D83C-4502-8425-63EF6E0D6602}
+		{A48A3832-329C-4D41-A74E-C6B92EBFC8EC} = {A48A3832-329C-4D41-A74E-C6B92EBFC8EC}
+		{D5B7BC0C-FAB0-4608-944F-964C687A8736} = {D5B7BC0C-FAB0-4608-944F-964C687A8736}
+		{E0C8A385-0C2A-4DFA-9840-58A6830606B3} = {E0C8A385-0C2A-4DFA-9840-58A6830606B3}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementos de la solución", "Elementos de la solución", "{3864C7AF-E2EE-46CD-940D-D95982E0E36C}"
 	ProjectSection(SolutionItems) = preProject

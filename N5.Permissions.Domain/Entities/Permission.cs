@@ -20,7 +20,7 @@ namespace N5.Permissions.Domain.Entities
         public required string EmployeeSurname { get; set; }
 
         [Required]
-        public required int PermissionTypeId { get; set; }
+        public int PermissionTypeId { get; set; }
 
         [Required]
         public required DateTime PermissionDate { get; set; }
